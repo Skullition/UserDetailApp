@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Image,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -35,12 +36,15 @@ const App = () => {
             return index.toString();
           }}
           renderItem={({item}) => {
-            console.log('item', item);
             return (
               <SafeAreaView style={styles.container}>
-                <Text style={styles.item}>
-                  {item.title}, {item.releaseYear}
-                </Text>
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: item.avatar_url,
+                  }}
+                />
+                <Text style={styles.item}>{item.login}</Text>
               </SafeAreaView>
             );
           }}
@@ -64,6 +68,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+  },
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
 });
 
