@@ -1,105 +1,203 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
+  Alert,
+  FlatList,
+  Image,
   StyleSheet,
   Text,
-  useColorScheme,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import axios from 'axios';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+export default class Users extends Component {
+  constructor({props}: {props: any}) {
+    super(props);
+    this.state = {
+      data: [
+        {
+          id: 1,
+          color: '#FF4500',
+          icon: 'https://bootdey.com/img/Content/avatar/avatar1.png',
+          name: 'User 1',
+          tags: ['tag 1', 'tag 2', 'tag 3', 'Mobile dev', 'RN', 'Bootdey'],
+        },
+        {
+          id: 2,
+          color: '#87CEEB',
+          icon: 'https://bootdey.com/img/Content/avatar/avatar2.png',
+          name: 'User 2',
+          tags: ['tag 1', 'tag 2', 'tag 3', 'Dey-Dey', 'Developer'],
+        },
+        {
+          id: 3,
+          color: '#4682B4',
+          icon: 'https://bootdey.com/img/Content/avatar/avatar3.png',
+          name: 'User 3',
+          tags: ['tag 1', 'tag 2', 'tag 3'],
+        },
+        {
+          id: 4,
+          color: '#6A5ACD',
+          icon: 'https://bootdey.com/img/Content/avatar/avatar4.png',
+          name: 'User 4',
+          tags: ['tag 1', 'tag 2', 'tag 3'],
+        },
+        {
+          id: 5,
+          color: '#FF69B4',
+          icon: 'https://bootdey.com/img/Content/avatar/avatar5.png',
+          name: 'User 5',
+          tags: ['tag 1', 'tag 2', 'tag 3'],
+        },
+        {
+          id: 6,
+          color: '#00BFFF',
+          icon: 'https://bootdey.com/img/Content/avatar/avatar6.png',
+          name: 'User 6',
+          tags: ['tag 1', 'tag 2', 'tag 3'],
+        },
+        {
+          id: 7,
+          color: '#00FFFF',
+          icon: 'https://bootdey.com/img/Content/avatar/avatar1.png',
+          name: 'User 7',
+          tags: ['tag 1', 'tag 2', 'tag 3'],
+        },
+        {
+          id: 8,
+          color: '#20B2AA',
+          icon: 'https://bootdey.com/img/Content/avatar/avatar2.png',
+          name: 'User 8',
+          tags: ['tag 1', 'tag 2', 'tag 3'],
+        },
+        {
+          id: 9,
+          color: '#191970',
+          icon: 'https://bootdey.com/img/Content/avatar/avatar3.png',
+          name: 'User 9',
+          tags: ['tag 1', 'tag 2', 'tag 3'],
+        },
+      ],
+    };
+  }
 
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  cardClickEventListener = (item: {name: string}) => {
+    Alert.alert(item.name);
   };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+  render() {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          style={styles.notificationList}
+          data={this.state.data}
+          keyExtractor={item => {
+            return item.id;
+          }}
+          renderItem={({item}) => {
+            return (
+              <TouchableOpacity
+                style={[styles.card, {borderColor: item.color}]}
+                onPress={() => {
+                  this.cardClickEventListener(item);
+                }}>
+                <View style={styles.cardContent}>
+                  <Image
+                    style={[styles.image, styles.imageContent]}
+                    source={{uri: item.icon}}
+                  />
+                  <Text style={styles.name}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View>
+    );
+  }
+}
+
+const getDataFromApi = async () => {
+  const apiURL = 'https://api.github.com/users';
+  const response = await axios.get(apiURL);
+  //console.log(response.data);
+  return response.data;
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: '#EBEBEB',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  formContent: {
+    flexDirection: 'row',
+    marginTop: 30,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  inputContainer: {
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    height: 45,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    margin: 10,
   },
-  highlight: {
-    fontWeight: '700',
+  icon: {
+    width: 30,
+    height: 30,
+  },
+  iconBtnSearch: {
+    alignSelf: 'center',
+  },
+  inputs: {
+    height: 45,
+    marginLeft: 16,
+    borderBottomColor: '#FFFFFF',
+    flex: 1,
+  },
+  notificationList: {
+    marginTop: 20,
+    padding: 10,
+  },
+  card: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginTop: 5,
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'column',
+    borderTopWidth: 40,
+    marginBottom: 20,
+  },
+  cardContent: {
+    flexDirection: 'row',
+    marginLeft: 10,
+  },
+  imageContent: {
+    marginTop: -40,
+  },
+  tagsContent: {
+    marginTop: 10,
+    flexWrap: 'wrap',
+  },
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    alignSelf: 'center',
+  },
+  btnColor: {
+    padding: 10,
+    borderRadius: 40,
+    marginHorizontal: 3,
+    backgroundColor: '#eee',
+    marginTop: 5,
   },
 });
-
-export default App;
