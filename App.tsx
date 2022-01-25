@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
 } from 'react-native';
 import axios from 'axios';
@@ -14,7 +15,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-function HomeScreen() {
+function HomeScreen({navigation}) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -41,13 +42,16 @@ function HomeScreen() {
             return (
               <SafeAreaView style={styles.container}>
                 <View style={styles.card_template}>
-                  <Image
-                    style={styles.card_image}
-                    source={{
-                      // @ts-ignore
-                      uri: item.avatar_url,
-                    }}
-                  />
+                  <TouchableHighlight
+                    onPress={() => navigation.navigate('Details')}>
+                    <Image
+                      style={styles.card_image}
+                      source={{
+                        // @ts-ignore
+                        uri: item.avatar_url,
+                      }}
+                    />
+                  </TouchableHighlight>
                   <View style={styles.text_container}>
                     <Text style={styles.card_title}>{item.login}</Text>
                   </View>
@@ -61,11 +65,20 @@ function HomeScreen() {
   );
 }
 
+function DetailScreen() {
+  return (
+    <View>
+      <Text>hi</Text>
+    </View>
+  );
+}
+
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
