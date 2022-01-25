@@ -9,8 +9,12 @@ import {
   View,
 } from 'react-native';
 import axios from 'axios';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-const App = () => {
+const Stack = createNativeStackNavigator();
+
+function HomeScreen() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -23,7 +27,6 @@ const App = () => {
       .catch(error => console.error(error))
       .finally(() => setLoading(false));
   }, []);
-
   return (
     <View>
       {isLoading ? (
@@ -55,6 +58,16 @@ const App = () => {
         />
       )}
     </View>
+  );
+}
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
