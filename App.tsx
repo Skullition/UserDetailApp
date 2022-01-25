@@ -43,7 +43,13 @@ function HomeScreen({navigation}) {
               <SafeAreaView style={styles.container}>
                 <View style={styles.card_template}>
                   <TouchableHighlight
-                    onPress={() => navigation.navigate('Details')}>
+                    onPress={() =>
+                      navigation.navigate('Details', {
+                        username: item.login,
+                        imageLink: item.avatar_url,
+                        accountType: item.type,
+                      })
+                    }>
                     <Image
                       style={styles.card_image}
                       source={{
@@ -65,11 +71,19 @@ function HomeScreen({navigation}) {
   );
 }
 
-function DetailScreen() {
+function DetailScreen({route}) {
+  const {username, imageLink, accountType} = route.params;
   return (
-    <View>
-      <Text>hi</Text>
-    </View>
+    <SafeAreaView style={styles.detailContainer}>
+      <Image
+        style={styles.detailImage}
+        source={{
+          uri: imageLink,
+        }}
+      />
+      <Text style={styles.detailText}>{username}</Text>
+      <Text style={styles.detailText}>{accountType}</Text>
+    </SafeAreaView>
   );
 }
 
@@ -116,6 +130,26 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
+  },
+  detailImage: {
+    display: 'flex',
+    flex: 1,
+    width: '100%',
+    height: '50%',
+    resizeMode: 'contain',
+  },
+  detailContainer: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  detailText: {
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+    fontSize: 24,
   },
 });
 
