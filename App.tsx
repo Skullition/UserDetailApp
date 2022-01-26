@@ -81,7 +81,9 @@ function DetailScreen({route}) {
           uri: imageLink,
         }}
       />
+      <Text style={styles.detailTextTitle}>Username</Text>
       <Text style={styles.detailText}>{username}</Text>
+      <Text style={styles.detailTextTitle}>User Type</Text>
       <Text style={styles.detailText}>{accountType}</Text>
     </SafeAreaView>
   );
@@ -149,7 +151,12 @@ const styles = StyleSheet.create({
   detailText: {
     fontFamily: 'sans-serif',
     fontWeight: 'bold',
+    color: 'black',
     fontSize: 24,
+  },
+  detailTextTitle: {
+    color: 'gray',
+    fontSize: 36,
   },
 });
 
