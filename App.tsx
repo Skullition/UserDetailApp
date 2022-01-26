@@ -81,10 +81,12 @@ function DetailScreen({route}) {
           uri: imageLink,
         }}
       />
-      <Text style={styles.detailTextTitle}>Username</Text>
-      <Text style={styles.detailText}>{username}</Text>
-      <Text style={styles.detailTextTitle}>User Type</Text>
-      <Text style={styles.detailText}>{accountType}</Text>
+      <View style={styles.detailTextContainer}>
+        <Text style={styles.detailTextTitle}>Username</Text>
+        <Text style={styles.detailText}>{username}</Text>
+        <Text style={styles.detailTextTitle}>User Type</Text>
+        <Text style={styles.detailText}>{accountType}</Text>
+      </View>
     </SafeAreaView>
   );
 }
@@ -142,11 +144,14 @@ const styles = StyleSheet.create({
   },
   detailContainer: {
     display: 'flex',
-    flex: 1,
     flexDirection: 'column',
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
+  },
+  detailTextContainer: {
+    display: 'flex',
+    padding: 20,
   },
   detailText: {
     fontFamily: 'sans-serif',
