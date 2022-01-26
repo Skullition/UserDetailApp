@@ -137,8 +137,7 @@ const styles = StyleSheet.create({
   },
   detailImage: {
     display: 'flex',
-    flex: 1,
-    width: '100%',
+    alignItems: 'flex-start',
     height: '50%',
     resizeMode: 'contain',
   },
@@ -158,6 +157,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     fontSize: 24,
+    marginTop: 10,
+    marginBottom: 10,
   },
   detailTextTitle: {
     color: 'gray',
